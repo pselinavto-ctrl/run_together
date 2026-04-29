@@ -347,6 +347,30 @@ class _SettingsBottomSheetState extends State<SettingsBottomSheet> {
                 ],
               ),
 
+              // ✅ Блок веса
+              const SizedBox(height: 16),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Text('Ваш вес', style: TextStyle(color: Colors.white70)),
+                  Text('${settings.weight.toInt()} кг', style: const TextStyle(color: Colors.greenAccent, fontWeight: FontWeight.bold)),
+                ],
+              ),
+              SliderTheme(
+                data: SliderThemeData(
+                  activeTrackColor: Colors.greenAccent,
+                  inactiveTrackColor: Colors.white24,
+                  thumbColor: Colors.white,
+                ),
+                child: Slider(
+                  value: settings.weight,
+                  min: 40,
+                  max: 150,
+                  divisions: 110,
+                  onChanged: (v) => settings.setWeight(v),
+                ),
+              ),
+
               SwitchListTile(title: const Text('Режим с лидером', style: TextStyle(color: Colors.white)), value: settings.useLeaderMode, onChanged: settings.toggleLeaderMode, activeColor: Colors.blueAccent),
               SwitchListTile(title: const Text('Голосовые подсказки', style: TextStyle(color: Colors.white)), value: settings.voiceEnabled, onChanged: settings.toggleVoice, activeColor: Colors.blueAccent),
 

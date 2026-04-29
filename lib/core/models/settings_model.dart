@@ -7,12 +7,14 @@ class SettingsModel extends ChangeNotifier {
   bool _voiceEnabled = true;
   String _runnerName = '';
   String _sessionCode = '';
+  double _weight = 70.0; // ✅ Вес для расчёта калорий
 
   bool get useLeaderMode => _useLeaderMode;
   double get maxDistance => _maxDistance;
   bool get voiceEnabled => _voiceEnabled;
   String get runnerName => _runnerName;
   String get sessionCode => _sessionCode;
+  double get weight => _weight;
 
   SettingsModel() {
     _loadFromPrefs();
@@ -25,6 +27,7 @@ class SettingsModel extends ChangeNotifier {
     _voiceEnabled = prefs.getBool('voice_enabled') ?? true;
     _runnerName = prefs.getString('runner_name') ?? '';
     _sessionCode = prefs.getString('session_code') ?? '';
+    _weight = prefs.getDouble('weight') ?? 70.0;
     notifyListeners();
   }
 
@@ -35,6 +38,7 @@ class SettingsModel extends ChangeNotifier {
     await prefs.setBool('voice_enabled', _voiceEnabled);
     await prefs.setString('runner_name', _runnerName);
     await prefs.setString('session_code', _sessionCode);
+    await prefs.setDouble('weight', _weight);
   }
 
   Future<void> toggleLeaderMode(bool value) async {
@@ -73,9 +77,15 @@ class SettingsModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  // ✅ Добавлено для плавной работы слайдера дистанции
   Future<void> setMaxDistance(double value) async {
     _maxDistance = value;
+    await _saveToPrefs();
+    notifyListeners();
+  }
+
+  // ✅ Установка веса
+  Future<void> setWeight(double value) async {
+    _weight = value;
     await _saveToPrefs();
     notifyListeners();
   }
